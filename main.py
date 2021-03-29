@@ -10,24 +10,26 @@ import argparse
 BASE_URL = "https://atunwadigital-recast.streamguys1.com"
 endpoint = BASE_URL + "/oauth/token"
 
-# init couchdb
-DB_URL = "http://localhost:5984"
-DB_USERNAME = "admin"
-DB_PSWD = "password"
-DB_groups = "groups"
-DB_content = "contents"
-
-# creat database if doesnt exist
-couch = couchdb.Server(DB_URL)
-couch.resource.credentials = (DB_USERNAME, DB_PSWD)
-####
 parser = argparse.ArgumentParser()
 parser.add_argument('username', nargs='+')
 parser.add_argument('password', nargs='+')
 parser.add_argument('client_secret', nargs='+')
 args = parser.parse_args()
 ###
+
+# init couchdb
+DB_URL = "http://localhost:5984"
+DB_USERNAME = "admin"
+DB_PSWD = str(args.password[0])
+DB_groups = "groups"
+DB_content = "contents"
+
 #####
+
+# creat database if doesnt exist
+couch = couchdb.Server(DB_URL)
+couch.resource.credentials = (DB_USERNAME, DB_PSWD)
+####
 if DB_content in couch:
     DB_content = couch[DB_content]
 else:
